@@ -4,13 +4,12 @@ const userInput = document.getElementById("userInput");
 const chatWindow = document.getElementById("chatWindow");
 const sendBtn = document.getElementById("sendBtn");
 
-/* OpenAI API setup */
-const apiUrl = "https://api.openai.com/v1/chat/completions";
-const model = "gpt-4o";
+/* Cloudflare Worker setup */
+const workerUrl = "https://round-meadow-ae4a.tooley24.workers.dev/";
 
-// System prompt: keeps the assistant focused on L'Oreal use cases only.
+// System prompt: keeps the assistant focused on L'Oreal beauty use cases only.
 const systemPrompt =
-  "You are a L'Oreal beauty assistant. Only answer questions about L'Oreal products, routines, and recommendations. If a question is unrelated to L'Oreal beauty topics, politely decline and invite the user to ask about L'Oreal products, skincare, haircare, makeup, or fragrance.";
+  "You are a L'Oreal beauty assistant. You must only answer questions related to L'Oreal products, beauty routines, recommendations, and beauty topics such as skincare, haircare, makeup, fragrance, ingredients, and product usage. If a user asks anything outside this scope, politely refuse in 1-2 short sentences and redirect them to ask a L'Oreal beauty question.";
 
 // Conversation starts with a system instruction.
 const messages = [
@@ -61,20 +60,13 @@ chatForm.addEventListener("submit", async (e) => {
   sendBtn.disabled = true;
 
   try {
-    if (typeof OPENAI_API_KEY === "undefined") {
-      throw new Error("Missing OPENAI_API_KEY. Add it in secrets.js.");
-    }
-
-    const response = await fetch(apiUrl, {
+    const response = await fetch(workerUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model,
         messages,
-        max_completion_tokens: 300,
       }),
     });
 
@@ -91,7 +83,7 @@ chatForm.addEventListener("submit", async (e) => {
   } catch (error) {
     addMessageToChat(
       "assistant",
-      "Sorry, I could not get a response right now. Please check your API key and try again.",
+      "Sorry, I could not get a response right now. Please check your Cloudflare Worker and try again.",
     );
     console.error(error);
   } finally {

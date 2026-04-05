@@ -1,113 +1,184 @@
-/* —— basic reset —— */
+/* ---- basic reset ---- */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* —— body + fonts —— */
+/* ---- brand tokens from BrandReview_LOREAL swatches ---- */
+:root {
+  --brand-black: rgb(0 0 0);
+  --brand-near-black: rgb(26 26 26);
+  --brand-charcoal: rgb(51 51 51);
+  --brand-mid-gray: rgb(128 128 128);
+  --brand-light-gray: rgb(230 230 230);
+  --brand-off-white: rgb(242 242 242);
+  --brand-white: rgb(255 255 255);
+
+  --brand-accent-red: rgb(237 28 36);
+  --brand-accent-coral: rgb(241 90 36);
+  --brand-accent-orange: rgb(255 147 30);
+  --brand-accent-pink: rgb(255 123 172);
+  --brand-accent-steel: rgb(189 204 212);
+
+  /* Brand family fallbacks from the PDF metadata */
+  --font-display: "Didot", "Big Caslon", "Libre Caslon Display", Georgia, serif;
+  --font-title:
+    "Helvetica Now Display", "Helvetica Neue LT Com", "Helvetica Neue",
+    "Century Gothic", "Gill Sans", sans-serif;
+  --font-ui:
+    "Helvetica Now MT Micro", "Helvetica Neue LT Com", "Gill Sans",
+    "Century Gothic", Arial, sans-serif;
+  --font-input:
+    "DIN Next LT Pro", "DIN Condensed", "Barlow Condensed", "Arial Narrow",
+    sans-serif;
+  --font-footer: "Rockwell", "Courier New", serif;
+}
+
+/* ---- body + layout ---- */
 body {
-  font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  color: #333;
+  font-family: var(--font-ui);
+  color: var(--brand-charcoal);
+  min-height: 100vh;
   display: flex;
   justify-content: center;
+  background:
+    radial-gradient(circle at 8% 10%, rgb(255 123 172 / 18%), transparent 28%),
+    radial-gradient(circle at 90% 0%, rgb(255 147 30 / 14%), transparent 32%),
+    linear-gradient(160deg, var(--brand-white) 0%, var(--brand-off-white) 100%);
 }
 
 .page-wrapper {
-  width: 90%;
-  max-width: 900px;
+  width: min(92%, 940px);
 }
 
-/* header */
+/* ---- header ---- */
 .site-header {
   text-align: center;
-  padding-top: 50px;
+  padding-top: 52px;
 }
 
 .site-title {
-  font-size: 22px;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: 0.04em;
+  color: var(--brand-black);
   margin-bottom: 10px;
+  text-wrap: balance;
 }
 
-/* chat window */
+/* ---- chat area ---- */
 .chatbox {
-  margin: 40px 0;
+  margin: 34px 0;
+  border: 1px solid rgb(0 0 0 / 14%);
+  border-radius: 22px;
+  background: rgb(255 255 255 / 82%);
+  backdrop-filter: blur(3px);
+  box-shadow:
+    0 8px 26px rgb(0 0 0 / 9%),
+    inset 0 1px 0 rgb(255 255 255 / 75%);
 }
 
 .chat-window {
-  height: 360px;
-  border: 1px solid #000;
-  padding: 20px;
-  font-size: 18px;
-  line-height: 1.5;
+  height: 410px;
+  border-bottom: 1px solid var(--brand-light-gray);
+  padding: 24px;
+  font-family: var(--font-ui);
+  font-size: 1.02rem;
+  line-height: 1.65;
   overflow-y: auto;
-  background: #fafafa;
   white-space: pre-line;
 }
 
-/* messages */
+/* ---- messages ---- */
 .msg {
   margin-bottom: 14px;
-  line-height: 1.5;
+  padding: 10px 12px;
+  border-radius: 12px;
+  line-height: 1.55;
 }
 
 .msg.user {
-  color: #000;
+  font-family: var(--font-input);
+  color: var(--brand-near-black);
+  background: rgb(189 204 212 / 25%);
+  border: 1px solid rgb(189 204 212 / 58%);
 }
 
 .msg.ai {
-  color: #666666;
+  font-family: var(--font-title);
+  color: var(--brand-charcoal);
+  background: rgb(255 255 255 / 85%);
+  border: 1px solid rgb(0 0 0 / 9%);
 }
 
-/* input row */
+/* ---- input row ---- */
 .chat-form {
   display: flex;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 0;
+  padding: 16px;
+  align-items: center;
 }
 
 .chat-form input {
   flex: 1;
-  padding: 12px;
-  border: 1px solid #ccc;
-  font-size: 18px;
+  padding: 12px 14px;
+  border: 1px solid rgb(0 0 0 / 25%);
+  border-radius: 10px;
+  font-family: var(--font-input);
+  font-size: 1rem;
+  background: var(--brand-white);
+  color: var(--brand-near-black);
+}
+
+.chat-form input::placeholder {
+  color: var(--brand-mid-gray);
 }
 
 .chat-form input:focus {
-  outline: 2px solid #000;
+  outline: 2px solid var(--brand-accent-orange);
   outline-offset: 2px;
+  border-color: var(--brand-accent-orange);
 }
 
 .chat-form button {
-  font-size: 18px;
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  width: 48px;
-  height: 48px;
+  font-size: 1rem;
+  background: linear-gradient(
+    135deg,
+    var(--brand-accent-red) 0%,
+    var(--brand-accent-coral) 48%,
+    var(--brand-accent-orange) 100%
+  );
+  color: var(--brand-white);
+  border: 0;
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.3s;
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
 }
 
 .chat-form button .material-icons {
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .chat-form button:hover {
-  background: #666666;
+  transform: translateY(-1px);
+  filter: saturate(1.07);
 }
 
 .chat-form button:focus {
-  outline: 2px solid #000;
+  outline: 2px solid var(--brand-black);
   outline-offset: 2px;
 }
 
-/* visually hidden */
+/* ---- visually hidden ---- */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -120,24 +191,41 @@ body {
   border: 0;
 }
 
-/* footer */
+/* ---- footer ---- */
 .site-footer {
-  margin: 60px 0 40px;
+  margin: 56px 0 36px;
   text-align: center;
-  font-size: 14px;
-  color: #666;
+  font-family: var(--font-footer);
+  font-size: 0.86rem;
+  color: rgb(77 77 77);
 }
 
 .site-footer nav {
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .site-footer a {
-  margin: 0 8px;
-  color: #000;
+  margin: 0 10px;
+  color: var(--brand-near-black);
   text-decoration: none;
 }
 
 .site-footer a:hover {
-  color: #666666;
+  color: var(--brand-accent-red);
+}
+
+@media (max-width: 700px) {
+  .site-header {
+    padding-top: 36px;
+  }
+
+  .chat-window {
+    height: 360px;
+    padding: 18px;
+  }
+
+  .chat-form {
+    padding: 12px;
+    gap: 10px;
+  }
 }
