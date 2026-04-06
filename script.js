@@ -76,11 +76,7 @@ chatForm.addEventListener("submit", async (e) => {
     }
 
     const data = await response.json();
-    const assistantReply = data?.choices?.[0]?.message?.content;
-
-    if (!assistantReply) {
-      throw new Error(`Unexpected API response: ${JSON.stringify(data)}`);
-    }
+    const assistantReply = data.choices[0].message.content;
 
     addMessageToChat("assistant", assistantReply);
     messages.push({ role: "assistant", content: assistantReply });
