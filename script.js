@@ -76,14 +76,19 @@ chatForm.addEventListener("submit", async (e) => {
     }
 
     const data = await response.json();
-    const assistantReply = data.choices[0].message.content;
+    const assistantReply = data?.choices?.[0]?.message?.content;
+
+    if (!assistantReply) {
+      throw new Error(`Unexpected API response: ${JSON.stringify(data)}`);
+    }
 
     addMessageToChat("assistant", assistantReply);
     messages.push({ role: "assistant", content: assistantReply });
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     addMessageToChat(
       "assistant",
-      "Sorry, I could not get a response right now. Please check your Cloudflare Worker and try again.",
+      `Sorry, I could not get a response right now. ${errorMessage}`,
     );
     console.error(error);
   } finally {
