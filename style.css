@@ -58,6 +58,13 @@ body {
   padding-top: 52px;
 }
 
+.site-logo {
+  display: block;
+  width: min(240px, 62vw);
+  height: auto;
+  margin: 0 auto 14px;
+}
+
 .site-title {
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3rem);
